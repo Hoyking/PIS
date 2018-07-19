@@ -1,9 +1,6 @@
 package com.dreamteamrss.pis.story1.task1;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
 
 public class NumberTheoryImpl implements NumberTheory {
     @Override
@@ -28,113 +25,36 @@ public class NumberTheoryImpl implements NumberTheory {
     }
 
     @Override
-    public List<Integer> createDiverseSequenceMethod1(List<Integer> inputSequence) {
-        List<Integer> outputSequence = new ArrayList<>(inputSequence.size());
-        for (Integer item : inputSequence) {
-            if (item < 10 && item > -10) {
-                outputSequence.add(item);
-                continue;
-            }
-            char[] chars = item.toString().toCharArray();
-            Arrays.sort(chars);
-            boolean check = true;
-            for (int index = 0; index < chars.length - 1; index++) {
-                if (chars[index] == chars[index + 1]) {
-                    check = false;
-                    break;
-                }
-            }
-            if (check) {
-                outputSequence.add(item);
-            }
-        }
-        return outputSequence;
-    }
-
-    @Override
-    public List<Integer> createDiverseSequenceMethod2(List<Integer> inputSequence) {
-        List<Integer> outputSequence = new ArrayList<>(inputSequence.size());
-        for (Integer item : inputSequence) {
-            if (item < 10 && item > -10) {
-                outputSequence.add(item);
-                continue;
-            }
-            boolean check = true;
-            Integer[] numArray = toNumArrayMethod1(item);
-            Arrays.sort(numArray);
-            for (int index = 0; index < numArray.length - 1; index++) {
-                if (numArray[index].equals(numArray[index + 1])) {
-                    check = false;
-                    break;
-                }
-            }
-            if (check) {
-                outputSequence.add(item);
-            }
-        }
-        return outputSequence;
-    }
-
-    @Override
-    public List<Integer> createDiverseSequenceMethod3(List<Integer> inputSequence) {
-        List<Integer> outputSequence = new ArrayList<>(inputSequence.size());
-        for (Integer item : inputSequence) {
-            if (item < 10 && item > -10) {
-                outputSequence.add(item);
-                continue;
-            }
-            boolean check = true;
-            int[] numArray = toNumArrayMethod2(item);
-            Arrays.sort(numArray);
-            for (int index = 0; index < numArray.length - 1; index++) {
-                if (numArray[index] == numArray[index + 1]) {
-                    check = false;
-                    break;
-                }
-            }
-            if (check) {
-                outputSequence.add(item);
-            }
-        }
-        return outputSequence;
-    }
-
-    @Override
-    public List<Integer> createDiverseSequenceMethod4(int[] inputSequence) {
-        List<Integer> outputSequence = new ArrayList<>(inputSequence.length);
+    public int[] createDiverseSequence(int[] inputSequence) {
+        int length = inputSequence.length;
+        int trueLength = 0;
+        int[] outputSequence = new int[length];
         for (int item : inputSequence) {
-            if (item < 10 && item > -10) {
-                outputSequence.add(item);
+            /*if (item < 10 && item > -10) {
+                outputSequence[trueLength] = item;
+                trueLength++;
                 continue;
-            }
+            }*/
             boolean check = true;
-            int[] numArray = toNumArrayMethod2(item);
+            int[] numArray = toNumArray(item);
             Arrays.sort(numArray);
-            for (int index = 0; index < numArray.length - 1; index++) {
-                if (numArray[index] == numArray[index + 1]) {
+            for (int index2 = 0; index2 < numArray.length - 1; index2++) {
+                if (numArray[index2] == numArray[index2 + 1]) {
                     check = false;
                     break;
                 }
             }
             if (check) {
-                outputSequence.add(item);
+                outputSequence[trueLength] = item;
+                trueLength++;
             }
         }
-        return outputSequence;
+        int[] realOutput = new int[trueLength];
+        System.arraycopy(outputSequence, 0, realOutput, 0, trueLength);
+        return realOutput;
     }
 
-    private Integer[] toNumArrayMethod1(int number) {
-        List<Integer> numberList = new ArrayList<>(10);
-        number = Math.abs(number);
-        while (number > 0) {
-            numberList.add(number % 10);
-            number /= 10;
-        }
-        Integer[] resultArray = new Integer[numberList.size()];
-        return numberList.toArray(resultArray);
-    }
-
-    private int[] toNumArrayMethod2(int number) {
+    private int[] toNumArray(int number) {
         number = Math.abs(number);
         int tempNumber = number;
         int size = 0;
